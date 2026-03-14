@@ -1,5 +1,5 @@
 import React from 'react';
-import {ShoppingBag, Search, User, Menu, ChevronDown, LogOut, LayoutDashboard} from 'lucide-react';
+import {ShoppingBag, Search, User, Menu, ChevronDown, LogOut, LayoutDashboard, X} from 'lucide-react';
 import {motion, AnimatePresence} from 'motion/react';
 import {useAuth} from '../hooks/useAuth';
 import {catalogApi} from '../services/catalog';
@@ -27,6 +27,9 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [isCategoriesOpen, setIsCategoriesOpen] = React.useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [isMobileCategoriesOpen, setIsMobileCategoriesOpen] = React.useState(false);
+  const [isMobileAccountOpen, setIsMobileAccountOpen] = React.useState(false);
   const {user, logout, isAuthenticated, isAdmin} = useAuth();
 
   const fallbackCategories = ['Masala', 'Oils', 'Dry Fruits', 'Tea Powder', 'Millet'];
@@ -55,7 +58,10 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex justify-between items-center h-20">
           {/* Mobile Menu Toggle */}
           <div className="flex items-center md:hidden">
-            <button className="p-2 text-gray-600">
+            <button
+              className="p-2 text-gray-600"
+              onClick={() => setIsMobileMenuOpen(prev => !prev)}
+            >
               <Menu size={24} />
             </button>
           </div>
@@ -190,6 +196,126 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{opacity: 0}}
+              animate={{opacity: 1}}
+              exit={{opacity: 0}}
+              className="fixed inset-0 bg-black/40 z-40 md:hidden"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            <motion.aside
+              initial={{x: -320}}
+              animate={{x: 0}}
+              exit={{x: -320}}
+              transition={{type: 'tween', duration: 0.25}}
+              className="fixed top-0 left-0 h-full w-72 bg-white z-[60] md:hidden shadow-2xl flex flex-col"
+            >
+              <div className="flex items-center justify-between px-5 h-16 border-b border-gray-100">
+                <span className="text-lg font-serif font-bold text-brand-primary">Menu</span>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-2 text-gray-600 hover:text-brand-primary transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="p-5 flex-1 overflow-y-auto space-y-6">
+                <button
+                  onClick={() => {
+                    onHomeClick();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full text-left text-sm font-semibold text-gray-800 hover:text-brand-primary transition-colors"
+                >
+                  Home
+                </button>
+
+                <div>
+                  <button
+                    onClick={() => setIsMobileCategoriesOpen(prev => !prev)}
+                    className="w-full flex items-center justify-between text-sm font-semibold text-gray-800 hover:text-brand-primary transition-colors"
+                  >
+                    <span>Categories</span>
+                    <ChevronDown
+                      size={16}
+                      className={`transition-transform ${isMobileCategoriesOpen ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+                  <AnimatePresence>
+                    {isMobileCategoriesOpen && (
+                      <motion.div
+                        initial={{opacity: 0, height: 0}}
+                        animate={{opacity: 1, height: 'auto'}}
+                        exit={{opacity: 0, height: 0}}
+                        className="mt-3 pl-3 space-y-2 overflow-hidden"
+                      >
+                        {categories.map(category => (
+                          <button
+                            key={category}
+                            onClick={() => {
+                              onCategoryClick(category);
+                              setIsMobileMenuOpen(false);
+                            }}
+                            className="w-full text-left text-sm text-gray-700 hover:text-brand-primary transition-colors"
+                          >
+                            {category}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                <div>
+                  <button
+                    onClick={() => setIsMobileAccountOpen(prev => !prev)}
+                    className="w-full flex items-center justify-between text-sm font-semibold text-gray-800 hover:text-brand-primary transition-colors"
+                  >
+                    <span>Contact</span>
+                    <ChevronDown
+                      size={16}
+                      className={`transition-transform ${isMobileAccountOpen ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+                  <AnimatePresence>
+                    {isMobileAccountOpen && (
+                      <motion.div
+                        initial={{opacity: 0, height: 0}}
+                        animate={{opacity: 1, height: 'auto'}}
+                        exit={{opacity: 0, height: 0}}
+                        className="mt-3 pl-3 space-y-2 overflow-hidden"
+                      >
+                        <button
+                          onClick={() => {
+                            onLoginClick();
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="w-full text-left text-sm text-gray-700 hover:text-brand-primary transition-colors"
+                        >
+                          Login
+                        </button>
+                        <button
+                          onClick={() => {
+                            onRegisterClick();
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="w-full text-left text-sm text-gray-700 hover:text-brand-primary transition-colors"
+                        >
+                          Register
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
