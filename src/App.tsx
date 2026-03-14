@@ -9,6 +9,7 @@ import {Register} from './components/Auth/Register';
 import {AdminDashboard} from './components/Admin/Dashboard';
 import {CartItem, Product} from './types';
 import {motion} from 'motion/react';
+import {requestJson} from './services/http';
 import {PRODUCTS} from './constants';
 import {AuthProvider, useAuth} from './hooks/useAuth';
 
@@ -27,20 +28,15 @@ function ShopContent() {
 
   useEffect(() => {
     // Check health for DB status
-    fetch('/api/health')
-      .then(res => res.json())
+    requestJson<{database?: string}>('/api/health')
       .then(data => {
-        if (data.database === 'disconnected') {
+        if (data?.database === 'disconnected') {
           setDbStatus('demo');
         }
       })
       .catch(() => setDbStatus('demo'));
 
-    fetch('/api/products')
-      .then(res => {
-        if (!res.ok) throw new Error('API Error');
-        return res.json();
-      })
+    requestJson<Product[]>('/api/products')
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
           setProducts(data);
