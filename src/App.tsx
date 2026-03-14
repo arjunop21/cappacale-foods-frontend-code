@@ -96,6 +96,8 @@ function ShopContent() {
     setView('shop');
   };
 
+  const normalizeCategory = (value?: string | null) => (value || '').trim().toLowerCase();
+
   if (view === 'admin' && isAdmin) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -162,7 +164,7 @@ function ShopContent() {
   }
 
   const filteredProducts = selectedCategory
-    ? products.filter(p => p.category === selectedCategory)
+    ? products.filter(p => normalizeCategory(p.category) === normalizeCategory(selectedCategory))
     : products;
 
   const productsToShow =
@@ -251,7 +253,7 @@ function ShopContent() {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {[
-                  {name: 'Masala', icon: '🌶️', color: 'bg-red-50'},
+                  {name: 'MASALA', icon: '🌶️', color: 'bg-red-50'},
                   {name: 'Oils', icon: '🫗', color: 'bg-yellow-50'},
                   {name: 'Dry Fruits', icon: '🥜', color: 'bg-orange-50'},
                   {name: 'Tea Powder', icon: '☕', color: 'bg-green-50'},
@@ -281,7 +283,7 @@ function ShopContent() {
                 </h2>
                 {dbStatus === 'demo' && (
                   <span className="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                    Demo Mode
+                    
                   </span>
                 )}
               </div>
