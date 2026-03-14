@@ -1,0 +1,68 @@
+import { Product } from "./types";
+
+export const PRODUCTS: Product[] = [
+  {
+    id: "sambar-powder",
+    name: "Sambar Powder",
+    price: 118,
+    weight: "100GM",
+    category: "Masala",
+    image: "https://cappacalefoods.com/cdn/shop/products/01-sambar_250x250@2x.jpg?v=1656066610",
+  },
+  {
+    id: "rasam-powder",
+    name: "Rasam Powder",
+    price: 112,
+    weight: "100g",
+    category: "Masala",
+    image: "https://cappacalefoods.com/cdn/shop/products/rasam-powder_250x250@2x.jpg?v=1656067308",
+  },
+  {
+    id: "vegetable-masala",
+    name: "Vegetable Masala",
+    price: 138,
+    weight: "100g",
+    category: "Masala",
+    image: "https://cappacalefoods.com/cdn/shop/products/vegetable-masala_250x250@2x.jpg?v=1656068125",
+  },
+  {
+    id: "fish-curry-masala",
+    name: "Fish Curry Masala",
+    price: 102,
+    weight: "100g",
+    category: "Masala",
+    image: "https://cappacalefoods.com/cdn/shop/products/fish-masala_250x250@2x.jpg?v=1665937596",
+  },
+  {
+    id: "fish-fry-masala",
+    name: "Fish Fry Masala",
+    price: 115,
+    weight: "100g",
+    category: "Masala",
+    image: "https://cappacalefoods.com/cdn/shop/products/fish-fry-masala_250x250@2x.jpg?v=1671538728",
+  },
+  {
+    id: "garam-masala",
+    name: "Garam Masala",
+    price: 163,
+    weight: "100gm",
+    category: "Masala",
+    image: "https://cappacalefoods.com/cdn/shop/files/garam-masala_250x250@2x.jpg?v=1698856850",
+  },
+  {
+    id: "meat-masala",
+    name: "Meat Masala",
+    price: 124,
+    weight: "100g",
+    category: "Masala",
+    image: "https://cappacalefoods.com/cdn/shop/products/MeatMasala_250x250@2x.jpg?v=1663563738",
+  },
+  {
+    id: "chicken-masala",
+    name: "Chicken Masala",
+    price: 119,
+    weight: "100g",
+    category: "Masala",
+    image: "https://cappacalefoods.com/cdn/shop/files/chicken-masala_250x250@2x.jpg?v=1698857314",
+  },
+];
